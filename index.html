@@ -51,31 +51,17 @@
 
             });
 
-            // document.getElementById("copy").onclick = function () {
-
-            // let text = $('#codeBlock').val();
-
-            //     navigator.clipboard.writeText('<p>Содержание статьи:</p><ul>' + code + '</ul>')
-            //         .then(() => {
-            //             console.log('Text copied to clipboard');
-            //         })
-            //         .catch(err => {
-            //             console.error('Error in copying text: ', err);
-            //         });
-            // }
-
             document.getElementById("copy").onclick = function () {
+
                 let text = $('#codeBlock').val();
-                var copyTextarea = document.createElement("textarea");
-                copyTextarea.style.position = "fixed";
-                copyTextarea.style.opacity = "0";
 
-                copyTextarea.textContent = text;
-
-                document.body.appendChild(copyTextarea);
-                copyTextarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(copyTextarea);
+                navigator.clipboard.writeText('<p>Содержание статьи:</p><ul>' + code + '</ul>')
+                    .then(() => {
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Error in copying text: ', err);
+                    });
             }
 
         });
