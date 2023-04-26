@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html
+          PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Homer generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+            integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+
+            $('#clear').on('click', function () {
+                $('#innerText').html('');
+                $('#codeBlock').html('');
+                $('#tableContent').html('');
+                $('#textarea').val('');
+            });
+            let code;
+            let menu;
+
+            $('#convert').on('click', function () {
+                let codeBlock = $('#codeBlock');
+                code = "";
+                menu = "";
+                $('#toc').removeClass('d-none');
+
+                $('#innerText').html('');
+                $('#codeBlock').html('');
+                $('#tableContent').html('');
+
+                console.log('Epta');
+                let textarea = $('#textarea').val();
+
+                $('#innerText').append(textarea);
+
+                let block = $("h2").each(function (i) {
+                    var current = $(this);
+                    current.attr("id", "title" + i);
+
+                    menu = "<li><a id='link" + i + "' href='#title" + i + "' title='" + current.html() + "'>" + current.html() + "</a></li>";
+                    $("#tableContent").append(menu);
+                    code = code + menu;
+                });
+                $('#codeBlock').text('<p>Содержание статьи:</p><ul>' + code + '</ul>');
+
+
+
+            });
+
+            // document.getElementById("copy").onclick = function () {
+
+            // let text = $('#codeBlock').val();
+
+            //     navigator.clipboard.writeText('<p>Содержание статьи:</p><ul>' + code + '</ul>')
+            //         .then(() => {
+            //             console.log('Text copied to clipboard');
+            //         })
+            //         .catch(err => {
+            //             console.error('Error in copying text: ', err);
+            //         });
+            // }
+
+            document.getElementById("copy").onclick = function () {
+                let text = $('#codeBlock').val();
+                var copyTextarea = document.createElement("textarea");
+                copyTextarea.style.position = "fixed";
+                copyTextarea.style.opacity = "0";
+
+                copyTextarea.textContent = text;
+
+                document.body.appendChild(copyTextarea);
+                copyTextarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(copyTextarea);
+            }
+
+        });
+        window.onload = function () {
+            // your code 
+
+
+
+        };
+    </script>
+    <style type="text/css">
+        body {
+            font-family: Arial, Sans-Serif;
+            font-size: 13px;
+            background: url(bg.jpg) no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        textarea {
+            padding: 10px;
+        }
+
+        #container {
+            width: 960px;
+            overflow: hidden;
+            margin: 0px auto;
+            position: relative;
+        }
+
+        #innerText {
+            background: rgb(255 255 255 / 92%);
+            /* padding: 10px; */
+        }
+
+        #codeBlock {
+            background: #faffb2;
+            padding: 10px;
+            border: 2px dashed;
+            border-radius: 4px;
+        }
+
+        #content {
+            width: 660px;
+            float: right;
+        }
+
+        #toc {
+            width: 200px;
+            position: fixed;
+            float: left;
+        }
+
+        #toc a {
+            display: block;
+            color: #0094FF;
+        }
+
+        #toc a[title=H1] {
+            font-size: 18px;
+        }
+
+        #toc a[title=H2] {
+            font-size: 14px;
+        }
+
+        #toc a[title=H3] {
+            font-size: 10px;
+        }
+
+        textarea {
+            display: block;
+            width: 90%;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        button {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="toc" class="d-none">
+            <div id="codeBlock"></div>
+            <button id="copy">Copy</button>
+            <p>Содержание статьи:</p>
+            <ul id="tableContent">
+
+            </ul>
+        </div>
+
+
+
+        <div id="content">
+
+            <textarea name="" id="textarea" cols="30" rows="20" placeholder="What's this do?"></textarea>
+            <button id="convert">Ouch!</button>
+            <button id="clear">clear</button>
+
+            <div id="innerText"></div>
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
