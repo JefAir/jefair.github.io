@@ -16,6 +16,7 @@
             $('#clear').on('click', function () {
                 $('#innerText').html('');
                 $('#codeBlock').html('');
+                $('#mainTextCode').html('');
                 $('#tableContent').html('');
                 $('#textarea').val('');
             });
@@ -26,13 +27,13 @@
                 let codeBlock = $('#codeBlock');
                 code = "";
                 menu = "";
-                $('#toc').removeClass('d-none');
 
+                $('#toc, #mainTextCode, #innerText, #copy2').removeClass('d-none');
                 $('#innerText').html('');
                 $('#codeBlock').html('');
                 $('#tableContent').html('');
 
-                console.log('Epta');
+
                 let textarea = $('#textarea').val();
 
                 $('#innerText').append(textarea);
@@ -47,7 +48,9 @@
                 });
                 $('#codeBlock').text('<p>Содержание статьи:</p><ul>' + code + '</ul>');
 
-
+                let mainTextCode = $('#innerText').html();
+                $('#mainTextCode').text(mainTextCode);
+                // console.log(mainTextCode);
 
             });
 
@@ -56,6 +59,17 @@
                 let text = $('#codeBlock').val();
 
                 navigator.clipboard.writeText('<p>Содержание статьи:</p><ul>' + code + '</ul>')
+                    .then(() => {
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Error in copying text: ', err);
+                    });
+            }
+            document.getElementById("copy2").onclick = function () {
+                let mainTextCodeForCopy = $(mainTextCode).text();
+
+                navigator.clipboard.writeText(mainTextCodeForCopy)
                     .then(() => {
                         console.log('Text copied to clipboard');
                     })
@@ -83,6 +97,7 @@
 
         textarea {
             padding: 10px;
+            /* max-height: 400px; */
         }
 
         #container {
@@ -94,16 +109,17 @@
 
         #innerText {
             background: rgb(255 255 255 / 92%);
-            /* padding: 10px; */
+            padding: 10px;
         }
 
-        #codeBlock {
+        .codeBlock {
             background: #faffb2;
             padding: 10px;
             border: 2px dashed;
             border-radius: 4px;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
+            margin-bottom: 20px;
         }
 
         #content {
@@ -115,6 +131,7 @@
             width: 200px;
             position: fixed;
             float: left;
+            background: rgb(255 255 255 / 92%);
         }
 
         #toc a {
@@ -160,7 +177,7 @@
 <body>
     <div id="container">
         <div id="toc" class="d-none">
-            <div id="codeBlock"></div>
+            <div id="codeBlock" class="codeBlock"></div>
             <button id="copy">Copy</button>
             <p>Содержание статьи:</p>
             <ul id="tableContent">
@@ -172,11 +189,14 @@
 
         <div id="content">
 
-            <textarea name="" id="textarea" cols="30" rows="20" placeholder="What's this do?"></textarea>
+            <textarea name="" id="textarea" cols="30" rows="10" placeholder="What's this do?"></textarea>
             <button id="convert">Ouch!</button>
             <button id="clear">clear</button>
 
-            <div id="innerText"></div>
+            <div id="mainTextCode" class="codeBlock d-none"></div>
+            <button id="copy2" class="d-none">Copy</button>
+            <div id="innerText" class="d-none"></div>
+
 
 
 
